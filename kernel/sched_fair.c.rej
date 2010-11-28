@@ -1,0 +1,15 @@
+--- kernel/sched_fair.c	2010-08-02 13:24:59.000000000 -0400
++++ kernel/sched_fair.c	2010-11-01 04:03:13.000000000 -0400
+@@ -1997,8 +1997,12 @@
+ static void moved_group_fair(struct task_struct *p)
+ {
+ 	struct cfs_rq *cfs_rq = task_cfs_rq(p);
++	s64 delta;
+ 
+ 	update_curr(cfs_rq);
++	delta = (s64) (p->se.vruntime - cfs_rq->min_vruntime);
++	if(delta > 0)
++		p->se.vruntime = cfs_rq->min_vruntime;
+ 	place_entity(cfs_rq, &p->se, 1);
+ }
+ #endif

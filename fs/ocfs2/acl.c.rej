@@ -1,0 +1,19 @@
+--- fs/ocfs2/acl.c	2010-08-02 13:24:59.000000000 -0400
++++ fs/ocfs2/acl.c	2010-03-22 23:05:02.000000000 -0400
+@@ -287,7 +226,6 @@
+ 	struct ocfs2_super *osb = OCFS2_SB(inode->i_sb);
+ 	struct posix_acl *acl = NULL;
+ 	int ret = 0;
+-	mode_t mode;
+ 
+ 	if (!S_ISLNK(inode->i_mode)) {
+ 		if (osb->s_mount_opt & OCFS2_MOUNT_POSIX_ACL) {
+@@ -318,7 +251,7 @@
+ 		mode = inode->i_mode;
+ 		ret = posix_acl_create_masq(clone, &mode);
+ 		if (ret >= 0) {
+-			ret = ocfs2_acl_set_mode(inode, di_bh, handle, mode);
++			inode->i_mode = mode;
+ 			if (ret > 0) {
+ 				ret = ocfs2_set_acl(handle, inode,
+ 						    di_bh, ACL_TYPE_ACCESS,
