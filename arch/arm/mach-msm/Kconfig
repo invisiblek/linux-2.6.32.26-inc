@@ -362,6 +362,63 @@ config MACH_LIBERTY
 	help
 	  Support for Liberty (PDA phone).
 
+config MACH_VISION
+       depends on ARCH_MSM7X30
+       depends on !MSM_STACKED_MEMORY
+       default n
+       bool "MSM7x30 VISION"
+       help
+         Support for the Qualcomm MSM7x30 Vision board.
+
+config MACH_LEXIKON
+       depends on ARCH_MSM7X30
+       depends on !MSM_STACKED_MEMORY
+       default n
+       bool "MSM7x30 LEXIKON"
+       help
+         Support for the Qualcomm MSM7x30 Lexikon board.
+
+config MACH_SPEEDY
+       depends on ARCH_MSM7X30
+       depends on !MSM_STACKED_MEMORY
+       default n
+       bool "MSM7x30 SPEEDY"
+       help
+         Support for the Qualcomm MSM7x30 Speedy board.
+
+config MACH_MECHA
+       depends on ARCH_MSM7X30
+       depends on !MSM_STACKED_MEMORY
+       default n
+       bool "MSM7x30 MECHA"
+       help
+         Support for the Qualcomm MSM7x30 Mecha board.
+
+config MACH_BLITZC
+       depends on ARCH_MSM7X30
+       depends on !MSM_STACKED_MEMORY
+       depends on MACH_MECHA
+       default n
+       bool "MSM7x30 BLITZC"
+       help
+         Support for the Qualcomm MSM7x30 Blitz#C board.
+
+config MACH_GLACIER
+       depends on ARCH_MSM7X30
+       depends on !MSM_STACKED_MEMORY
+       default n
+       bool "MSM7x30 GLACIER"
+       help
+         Support for the Qualcomm MSM7x30 Glacier board.
+
+config MACH_SPADE
+       depends on ARCH_MSM7X30
+       depends on !MSM_STACKED_MEMORY
+       default n
+       bool "MSM7x30 SPADE"
+       help
+         Support for the Qualcomm MSM7x30 Spade board.
+
 config TROUT_BATTCHG
 	depends on MACH_TROUT && POWER_SUPPLY
 	default n
@@ -401,6 +458,20 @@ config BUILD_OMA_DM
         default n
         help
           For OMA-DM we need to do some additional fixes.
+
+-config QSD_SVS
+  bool "QSD Static Voltage Scaling"
+  depends on (ARCH_MSM_SCORPION)
+  default y
+  help
+    Enables static voltage scaling using the TPS65023 PMIC.
+
+config QSD_PMIC_DEFAULT_DCDC1
+  int "PMIC default output voltage"
+  depends on (ARCH_MSM_SCORPION)
+  default 1275
+  help
+    This is the PMIC voltage at Linux kernel boot.
 
 config CACHE_FLUSH_RANGE_LIMIT
 	hex "Cache flush range limit"
@@ -709,6 +780,15 @@ config MSM_CPU_FREQ_ONDEMAND_MAX
 config MSM_CPU_FREQ_ONDEMAND_MIN
 	int "Min"
 	default 245760
+
+config MSM_CPU_AVS
+  bool "Enable Adaptive Voltage Scaling (AVS)"
+  depends on (ARCH_MSM_SCORPION && QSD_SVS)
+  default y
+  help
+    This enables the Adaptive Voltage Scaling feature of
+    Qualcomm ARMv7 CPUs. It adjusts the voltage for each frequency
+    based on feedback from three ring oscillators in the CPU.
 
 config MSM_HW3D
 	tristate "MSM Hardware 3D Register Driver"
