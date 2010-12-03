@@ -1488,7 +1488,7 @@ config VFP
 	  Say N if your target does not have VFP hardware.
 
 config VFPv3
-	bool
+	bool "VFPv3"
 	depends on VFP
 	default y if CPU_V7
 

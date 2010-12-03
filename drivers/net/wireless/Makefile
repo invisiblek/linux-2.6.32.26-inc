@@ -6,7 +6,7 @@ obj-$(CONFIG_IPW2100) += ipw2x00/
 obj-$(CONFIG_IPW2200) += ipw2x00/
 
 obj-$(CONFIG_STRIP) += strip.o
-obj-$(CONFIG_ARLAN) += arlan.o
+obj-$(CONFIG_ARLAN) += arlan.o 
 
 arlan-objs := arlan-main.o arlan-proc.o
 
@@ -21,7 +21,7 @@ obj-$(CONFIG_AIRO)		+= airo.o
 obj-$(CONFIG_AIRO_CS)		+= airo_cs.o airo.o
 
 obj-$(CONFIG_ATMEL)             += atmel.o
-obj-$(CONFIG_PCI_ATMEL)         += atmel_pci.o
+obj-$(CONFIG_PCI_ATMEL)         += atmel_pci.o 
 obj-$(CONFIG_PCMCIA_ATMEL)      += atmel_cs.o
 
 obj-$(CONFIG_AT76C50X_USB)      += at76c50x-usb.o
