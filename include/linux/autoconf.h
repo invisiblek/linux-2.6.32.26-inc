@@ -1,7 +1,7 @@
 /*
  * Automatically generated C config: don't edit
  * Linux kernel version: 2.6.32.26
- * Fri Dec  3 13:47:00 2010
+ * Fri Dec  3 16:59:26 2010
  */
 #define AUTOCONF_INCLUDED
 #define CONFIG_DEBUG_SPINLOCK_SLEEP 1
@@ -547,7 +547,6 @@
 #define CONFIG_NFS_V4 1
 #define CONFIG_JBD 1
 #define CONFIG_USB_ARCH_HAS_HCD 1
-#define CONFIG_BCM4329_SOFTAP 1
 #define CONFIG_IFB_MODULE 1
 #define CONFIG_DEFAULT_TCP_CONG "cubic"
 #define CONFIG_SWITCH 1
