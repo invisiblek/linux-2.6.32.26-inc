@@ -58,7 +58,6 @@ struct battery_status {
 	u8 charge_mode;
 } __attribute__((packed));
 
-
 #define SOURCE_NONE	0
 #define SOURCE_USB	1
 #define SOURCE_AC	2
@@ -444,12 +443,26 @@ static int battery_adjust_charge_state(struct ds2784_device_info *di)
 	/* shut off charger when full:
 	 * - CHGTF flag is set
 	 */
-	if (di->status.status_reg & 0x80) {
+	/* We don't move from full to not-full until
+	* we drop below 95%, to avoid confusing the
+	* user while we're maintaining a full charge
+	* (slowly draining to 95 and charging back
+	* to 100)
+	*/
+	if (di->status.percentage < 95) {
+		di->status.battery_full = 0;
+	}
+
+	/* Modified check function, based on original HTC Source.
+	 * Added current_uA check (relates to 1400mAh capacity check)
+	 */
+
+	if ((di->status.status_reg & 0x80) &&
+	    ((di->status.current_uA/1000) <= 80) &&
+	    (di->status.percentage == 100)) {
 		di->status.battery_full = 1;
 		charge_mode = CHARGE_BATT_DISABLE;
-	} else
-		di->status.battery_full = 0;
-
+	}
 	if (temp >= TEMP_HOT) {
 		if (temp >= TEMP_CRITICAL)
 			charge_mode = CHARGE_BATT_DISABLE;
@@ -472,7 +485,7 @@ static int battery_adjust_charge_state(struct ds2784_device_info *di)
 			charge_mode = CHARGE_BATT_DISABLE;
 	}
 
-	if (di->status.current_uA > 1024)
+	if (di->status.battery_full == 1)
 		di->last_charge_seen = di->last_poll;
 	else if (di->last_charge_mode != CHARGE_OFF &&
 		 check_timeout(di->last_poll, di->last_charge_seen, 60 * 60)) {
