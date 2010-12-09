@@ -444,12 +444,12 @@ static int battery_adjust_charge_state(struct ds2784_device_info *di)
 	 * - CHGTF flag is set
 	 */
 	/* We don't move from full to not-full until
-	* we drop below 95%, to avoid confusing the
+	* we drop below 99%, to avoid confusing the
 	* user while we're maintaining a full charge
 	* (slowly draining to 95 and charging back
 	* to 100)
 	*/
-	if (di->status.percentage < 95) {
+	if (di->status.percentage < 99) {
 		di->status.battery_full = 0;
 	}
 
