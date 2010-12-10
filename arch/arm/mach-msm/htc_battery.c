@@ -488,6 +488,11 @@ static int htc_cable_status_update(int status)
 	} else
 		msm_hsusb_set_vbus_state(!!htc_batt_info.rep.charging_source);
 
+	if ((htc_batt_info.guage_driver == GUAGE_MODEM) && (status == CHARGER_AC)
+	&& (htc_batt_info.rep.level == 100)) {
+		htc_batt_info.rep.charging_enabled = 1;
+	}
+
 	/* TODO: use power_supply_change to notify battery drivers. */
 	if (htc_batt_info.guage_driver == GUAGE_DS2784 ||
 		htc_batt_info.guage_driver == GUAGE_DS2746)
@@ -661,7 +666,7 @@ static int htc_get_batt_info(struct battery_info_reply *buffer)
 	/* Move the rules of charging_source to cable_status_update. */
 	/* buffer->charging_source 	= be32_to_cpu(rep.info.charging_source); */
 	buffer->charging_enabled 	= be32_to_cpu(rep.info.charging_enabled);
-	buffer->full_bat 		= be32_to_cpu(rep.info.full_bat);
+	buffer->full_bat 		= 1800000;
 	/* Over_vchg only update in SMEM from A9 */
 	/* buffer->over_vchg 		= be32_to_cpu(rep.info.over_vchg); */
 	mutex_unlock(&htc_batt_info.lock);
@@ -766,7 +771,7 @@ static int htc_get_batt_info_smem(struct battery_info_reply *buffer)
 	/* Move the rules of charging_source to cable_status_update. */
 	/* buffer->charging_source 	= be32_to_cpu(smem_batt_info->charging_source); */
 	buffer->charging_enabled = smem_batt_info->charging_enabled;
-	buffer->full_bat = smem_batt_info->full_bat;
+	buffer->full_bat = 1800000;
 	buffer->over_vchg = smem_batt_info->over_vchg;
 	mutex_unlock(&htc_batt_info.lock);
 
@@ -983,17 +988,20 @@ static int htc_battery_get_charging_status(void)
 	case CHARGER_AC:
 		if ((htc_charge_full) && (htc_batt_info.rep.full_level == 100)) {
 			htc_batt_info.rep.level = 100;
+			htc_batt_info.rep.charging_enabled = 2;
 		}
 
 		level = htc_batt_info.rep.level;
 		if (level == 100){
 			htc_charge_full = 1;}
-		if (htc_charge_full)
+		if (htc_charge_full) {
 			ret = POWER_SUPPLY_STATUS_FULL;
-		else if (htc_batt_info.rep.charging_enabled != 0)
+			htc_batt_info.rep.charging_enabled = 2;
+			smem_batt_info->charging_enabled = 2;
+		} else if (htc_batt_info.rep.charging_enabled != 0)
 			ret = POWER_SUPPLY_STATUS_CHARGING;
 		else
-			ret = POWER_SUPPLY_STATUS_DISCHARGING;
+			ret = POWER_SUPPLY_STATUS_CHARGING;
 		break;
 	default:
 		ret = POWER_SUPPLY_STATUS_UNKNOWN;
@@ -1197,9 +1205,6 @@ static ssize_t htc_battery_set_full_level(struct device *dev,
 	unsigned long param = 0;
 
 	percent = simple_strtoul(buf, NULL, 10);
-
-	if (percent > 100 || percent == 0)
-		return -EINVAL;
 
 	switch (htc_batt_info.guage_driver) {
 	case GUAGE_MODEM:
