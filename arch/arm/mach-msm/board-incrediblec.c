@@ -639,11 +639,7 @@ struct atmel_i2c_platform_data incrediblec_atmel_ts_data[] = {
 		.config_T6 = {0, 0, 0, 0, 0, 0},
 		.config_T7 = {50, 15, 25},
 		.config_T8 = {10, 0, 20, 10, 0, 0, 5, 15},
-<<<<<<< HEAD
-		.config_T9 = {139, 0, 0, 18, 12, 0, 16, 38, 3, 7, 0, 5, 2, 15, 10, 10, 25, 5, 0, 0, 0, 0, 0, 0, 0, 0, 159, 47, 149, 81, 40},
-=======
 		.config_T9 = {139, 0, 0, 18, 12, 0, 16, 38, 3, 7, 0, 5, 2, 15, 3, 10, 25, 5, 0, 0, 0, 0, 0, 0, 0, 0, 159, 47, 149, 81, 40},
->>>>>>> 221b3b1... up to 28. was a revert to #18, 3 point multi-touch, havs back in, no battery patches, 384 max screen off, 128 enabled
 		.config_T15 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		.config_T19 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		.config_T20 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
