@@ -80,7 +80,7 @@ static unsigned int up_min_freq;
  * to minimize wakeup issues.
  * Set sleep_max_freq=0 to disable this behavior.
  */
-#define DEFAULT_SLEEP_MAX_FREQ CONFIG_MSM_CPU_FREQ_ONDEMAND_MIN
+#define DEFAULT_SLEEP_MAX_FREQ 384000
 static unsigned int sleep_max_freq;
 
 /*
@@ -95,7 +95,7 @@ static unsigned int sleep_wakeup_freq;
  * go below this frequency.
  * Set awake_min_freq=0 to disable this behavior.
  */
-#define DEFAULT_AWAKE_MIN_FREQ 245000
+#define DEFAULT_AWAKE_MIN_FREQ 128000
 static unsigned int awake_min_freq;
 
 /*

@@ -64,6 +64,7 @@
 #include <mach/vreg.h>
 /* #include <mach/pmic.h> */
 #include <mach/msm_hsusb.h>
+#include <mach/bcm_bt_lpm.h>
 
 #define SMEM_SPINLOCK_I2C      6
 #define INCREDIBLEC_MICROP_VER		0x04
@@ -638,7 +639,7 @@ struct atmel_i2c_platform_data incrediblec_atmel_ts_data[] = {
 		.config_T6 = {0, 0, 0, 0, 0, 0},
 		.config_T7 = {50, 15, 25},
 		.config_T8 = {10, 0, 20, 10, 0, 0, 5, 15},
-		.config_T9 = {139, 0, 0, 18, 12, 0, 16, 38, 3, 7, 0, 5, 2, 15, 2, 10, 25, 5, 0, 0, 0, 0, 0, 0, 0, 0, 159, 47, 149, 81, 40},
+		.config_T9 = {139, 0, 0, 18, 12, 0, 16, 38, 3, 7, 0, 5, 2, 15, 10, 10, 25, 5, 0, 0, 0, 0, 0, 0, 0, 0, 159, 47, 149, 81, 40},
 		.config_T15 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		.config_T19 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		.config_T20 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -668,7 +669,7 @@ struct atmel_i2c_platform_data incrediblec_atmel_ts_data[] = {
 		.config_T6 = {0, 0, 0, 0, 0, 0},
 		.config_T7 = {50, 15, 25},
 		.config_T8 = {12, 0, 20, 20, 0, 0, 20, 0},
-		.config_T9 = {139, 0, 0, 18, 12, 0, 32, 40, 2, 7, 0, 5, 2, 0, 2, 10, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 159, 47, 149, 81},
+		.config_T9 = {139, 0, 0, 18, 12, 0, 32, 40, 2, 7, 0, 5, 2, 0, 10, 10, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 159, 47, 149, 81},
 		.config_T15 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		.config_T19 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		.config_T20 = {7, 0, 0, 0, 0, 0, 0, 30, 20, 4, 15, 5},
@@ -695,7 +696,8 @@ struct atmel_i2c_platform_data incrediblec_atmel_ts_data[] = {
 		.config_T6 = {0, 0, 0, 0, 0, 0},
 		.config_T7 = {50, 15, 25},
 		.config_T8 = {12, 0, 20, 20, 0, 0, 10, 15},
-		.config_T9 = {3, 0, 0, 18, 12, 0, 48, 45, 2, 7, 0, 0, 0, 0, 2, 10, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 143, 47, 143, 81},
+		.config_T9 = {3, 0, 0, 18, 12, 0, 48, 45, 2, 7, 0, 0, 0, 0, 10, 10, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 143, 
+47, 143, 81},
 		.config_T15 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		.config_T19 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		.config_T20 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -718,8 +720,8 @@ static struct regulator_init_data tps65023_data[5] = {
 	{
 		.constraints = {
 			.name = "dcdc1", /* VREG_MSMC2_1V29 */
-			.min_uV = 1000000,
-			.max_uV = 1300000,
+			.min_uV = 950000,
+			.max_uV = 1400000,
 			.valid_ops_mask = REGULATOR_CHANGE_VOLTAGE,
 		},
 		.consumer_supplies = tps65023_dcdc1_supplies,
@@ -942,7 +944,8 @@ static void bt_export_bd_address(void)
 	unsigned char cTemp[6];
 
 	memcpy(cTemp, get_bt_bd_ram(), 6);
-	sprintf(bdaddress, "%02x:%02x:%02x:%02x:%02x:%02x", cTemp[0], cTemp[1], cTemp[2], cTemp[3], cTemp[4], cTemp[5]);
+	sprintf(bdaddress, "%02x:%02x:%02x:%02x:%02x:%02x", cTemp[0], cTemp[1], cTemp[2], cTemp[3], cTemp[4], 
+cTemp[5]);
 	printk(KERN_INFO "YoYo--BD_ADDRESS=%s\n", bdaddress);
 }
 
@@ -1396,6 +1399,7 @@ static struct platform_device sonywvga_panel = {
 		.platform_data = &sonywvga_data,
 	},
 };
+
 static struct msm_serial_hs_platform_data msm_uart_dm1_pdata = {
         .rx_wakeup_irq = -1,
         .inject_rx_on_wakeup = 0,
@@ -1416,6 +1420,7 @@ struct platform_device bcm_bt_lpm_device = {
                 .platform_data = &bcm_bt_lpm_pdata,
         },
 };
+
 static struct platform_device *devices[] __initdata = {
 	&msm_device_uart1,
 #ifdef CONFIG_SERIAL_MSM_HS
@@ -1512,20 +1517,6 @@ static struct perflock_platform_data incrediblec_perflock_data = {
 };
 
 int incrediblec_init_mmc(int sysrev);
-
-#ifdef CONFIG_SERIAL_MSM_HS
-static struct msm_serial_hs_platform_data msm_uart_dm1_pdata = {
-	.rx_wakeup_irq = MSM_GPIO_TO_INT(INCREDIBLEC_GPIO_BT_HOST_WAKE),	/*Chip to Device*/
-	.inject_rx_on_wakeup = 0,
-	.cpu_lock_supported = 0,
-
-	/* for bcm */
-	.bt_wakeup_pin_supported = 1,
-	.bt_wakeup_pin = INCREDIBLEC_GPIO_BT_CHIP_WAKE,
-	.host_wakeup_pin = INCREDIBLEC_GPIO_BT_HOST_WAKE,
-
-};
-#endif
 
 static int OJ_BMA_power(void)
 {
@@ -1649,7 +1640,7 @@ static void __init incrediblec_init(void)
 
 	#ifdef CONFIG_SERIAL_MSM_HS
 	msm_device_uart_dm1.dev.platform_data = &msm_uart_dm1_pdata;
-	msm_device_uart_dm1.name = "msm_serial_hs_bcm";	/* for bcm */
+	msm_device_uart_dm1.name = "msm_serial_hs";	/* for bcm */
 	#endif
 
 	incrediblec_config_uart_gpios();

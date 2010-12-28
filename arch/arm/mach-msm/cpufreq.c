@@ -25,7 +25,7 @@
 /* Make sure the kernel is not overclocked on boot to avoid potential freezing/boot loops
  * for people with less capable hardware. */
 #define CPUFREQ_MAX 998400
-#define CPUFREQ_MIN 245760
+#define CPUFREQ_MIN 128000
 
 #ifdef CONFIG_MSM_CPU_FREQ_SCREEN
 static void msm_early_suspend(struct early_suspend *handler) {

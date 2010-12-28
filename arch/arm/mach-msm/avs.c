@@ -376,4 +376,3 @@ void __exit avs_exit()
   kfree(avs_state.avs_v);
 }
 
-
