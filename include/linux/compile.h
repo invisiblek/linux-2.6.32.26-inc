@@ -1,8 +1,8 @@
-/* This file is auto generated, version 30 */
+/* This file is auto generated, version 31 */
 /*  PREEMPT */
 #define UTS_MACHINE "arm"
-#define UTS_VERSION "#30 PREEMPT Fri Dec 31 02:09:36 EST 2010"
-#define LINUX_COMPILE_TIME "02:09:36"
+#define UTS_VERSION "#31 PREEMPT Sat Jan 1 16:52:48 EST 2011"
+#define LINUX_COMPILE_TIME "16:52:48"
 #define LINUX_COMPILE_BY "root"
 #define LINUX_COMPILE_HOST "Kubuntu-VM"
 #define LINUX_COMPILE_DOMAIN
