@@ -74,10 +74,10 @@ struct clkctl_acpu_speed {
 #define SRC_PLL1	3 /* 768 MHz */
 
 struct clkctl_acpu_speed acpu_freq_tbl[] = {
-	{  19200, CCTL(CLK_TCXO, 1),		SRC_RAW, 0, 0, 900, 14000}, // 950
-	{ 128000, CCTL(CLK_TCXO, 1),		SRC_AXI, 0, 0, 900, 14000 }, // 950
+	{  19200, CCTL(CLK_TCXO, 1),		SRC_RAW, 0, 0, 925, 14000}, // 950
+	{ 128000, CCTL(CLK_TCXO, 1),		SRC_AXI, 0, 0, 925, 14000 }, // 950
 	{ 245760, CCTL(CLK_MODEM_PLL, 1),	SRC_RAW, 0, 0, 925, 29000 }, // change vdd to 1000 as evo has issues setting undervolt to 950 or 975
-	{ 384000, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x0A, 0, 950, 58000 }, // 975
+	{ 384000, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x0A, 0, 975, 58000 }, // 975
 	{ 422400, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x0B, 0, 975, 117000 }, // 1000
 	{ 460800, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x0C, 0, 1000, 117000 },
 	{ 499200, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x0D, 0, 1025, 117000 },
@@ -87,8 +87,8 @@ struct clkctl_acpu_speed acpu_freq_tbl[] = {
 	{ 652800, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x11, 0, 1100, 117000 },
 	{ 691200, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x12, 0, 1125, 117000 },
 	{ 729600, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x13, 0, 1150, 117000 },
-	{ 768000, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x14, 0, 1150, 128000 },
-	{ 806400, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x15, 0, 1175, 128000 },
+	{ 768000, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x14, 0, 1175, 128000 },
+	{ 806400, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x15, 0, 1200, 128000 },
 	{ 844800, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x16, 0, 1200, 128000 },
 	{ 883200, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x17, 0, 1225, 128000 },
 	{ 921600, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x18, 0, 1225, 128000 }, // 1300
@@ -98,7 +98,7 @@ struct clkctl_acpu_speed acpu_freq_tbl[] = {
 	{ 1075200, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x1C, 0, 1300, 128000 },
 	{ 1113600, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x1D, 0, 1300, 128000 },
 	/* Note: Max safe frequency for most Nexus Ones is ~1.1136-1.1152 */
-	{ 1152000, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x1E, 0, 1300, 128000 },
+	{ 1152000, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x1E, 0, 1350, 128000 },
 	{ 1190400, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x1F, 0, 1350, 128000 },
 	{ 0 },
 };
@@ -295,13 +295,13 @@ static int acpu_set_vdd(int vdd)
 	if (!drv_state.regulator || IS_ERR(drv_state.regulator)) {
 		drv_state.regulator = regulator_get(NULL, "acpu_vcore");
 		if (IS_ERR(drv_state.regulator)) {
-			pr_info("acpuclk_set_vdd_level %d no regulator\n", vdd);
+			pr_info("acpu_set_vdd %d no regulator\n", vdd);
 			/* Assume that the PMIC supports scaling the processor
 			 * to its maximum frequency at its default voltage.
 			 */
 			return -ENODEV;
 		}
-		pr_info("acpuclk_set_vdd_level got regulator\n");
+		pr_info("acpu_set_vdd got regulator\n");
 	}
 	vdd *= 1000; /* mV -> uV */
 	return regulator_set_voltage(drv_state.regulator, vdd, vdd);
@@ -354,8 +354,8 @@ int acpuclk_set_rate(unsigned long rate, enum setrate_reason reason)
 	    rc = avs_adjust_freq(freq_index, 1);
 	    if (rc) {
 	      printk(KERN_ERR
-				"acpuclock: fail2 Unable to increase ACPU "
-				"vdd.\n");
+	        "acpuclock: Unable to increase ACPU "
+	        "vdd: %d.\n", (int) rate);
 	      mutex_unlock(&drv_state.lock);
 	      return rc;
 	    }
@@ -364,7 +364,7 @@ int acpuclk_set_rate(unsigned long rate, enum setrate_reason reason)
 		if (next->vdd > cur->vdd) {
 			rc = acpuclk_set_vdd_level(next->vdd);
 			if (rc) {
-				pr_err("acpuclock: fail1 Unable to increase ACPU VDD.\n");
+				pr_err("acpuclock: Unable to increase ACPU VDD.\n");
 				mutex_unlock(&drv_state.lock);
 				return rc;
 			}
@@ -472,10 +472,10 @@ void __init acpu_freq_tbl_fixup(void)
 		pr_info("Efuse data on Max ACPU freq not present.\n");
 		goto skip_efuse_fixup;
 	}
-	
+
 	/* Override the fixup because we're overclocking */
 	max_acpu_khz = 1190400;
-	
+
 	/* pr_info("Max ACPU freq is %d KHz\n", max_acpu_khz); */
 
 	for (i = 0; acpu_freq_tbl[i].acpu_khz != 0; i++) {
