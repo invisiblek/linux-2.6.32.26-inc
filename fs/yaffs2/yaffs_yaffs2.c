@@ -20,7 +20,10 @@
 #include "yaffs_qsort.h"
 #include "yaffs_nand.h"
 #include "yaffs_getblockinfo.h"
+<<<<<<< HEAD
 #include "yaffs_verify.h"
+=======
+>>>>>>> 875ed9e... yaffs: sync with yaffs repo
 
 /*
  * Checkpoints are really no benefit on very small partitions.

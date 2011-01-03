@@ -417,9 +417,12 @@ struct yaffs_ObjectStruct {
 				 */
 	__u8 beingCreated:1;	/* This object is still being created so skip some checks. */
 	__u8 isShadowed:1;	/* This object is shadowed on the way to being renamed. */
+<<<<<<< HEAD
 
 	__u8 xattrKnown:1;	/* We know if this has object has xattribs or not. */
 	__u8 hasXattr:1;	/* This object has xattribs. Valid if xattrKnown. */
+=======
+>>>>>>> 875ed9e... yaffs: sync with yaffs repo
 
 	__u8 serial;		/* serial number of chunk in NAND. Cached here */
 	__u16 sum;		/* sum of the name to speed searching */
@@ -597,6 +600,7 @@ struct yaffs_DeviceParamStruct {
 	int disableSoftDelete;  /* yaffs 1 only: Set to disable the use of softdeletion. */
 	
 	int deferDirectoryUpdate; /* Set to defer directory updates */
+<<<<<<< HEAD
 
 #ifdef CONFIG_YAFFS_AUTO_UNICODE
 	int autoUnicode;
@@ -611,6 +615,22 @@ struct yaffs_DeviceStruct {
 
         /* Context storage. Holds extra OS specific data for this device */
 
+=======
+
+#ifdef CONFIG_YAFFS_AUTO_UNICODE
+	int autoUnicode;
+#endif
+	
+};
+
+typedef struct yaffs_DeviceParamStruct yaffs_DeviceParam;
+
+struct yaffs_DeviceStruct {
+	struct yaffs_DeviceParamStruct param;
+
+        /* Context storage. Holds extra OS specific data for this device */
+
+>>>>>>> 875ed9e... yaffs: sync with yaffs repo
 	void *osContext;
 	void *driverContext;
 
@@ -757,7 +777,10 @@ struct yaffs_DeviceStruct {
 	__u32 allGCs;
 	__u32 passiveGCs;
 	__u32 oldestDirtyGCs;
+<<<<<<< HEAD
 	__u32 nGCBlocks;
+=======
+>>>>>>> 875ed9e... yaffs: sync with yaffs repo
 	__u32 backgroundGCs;
 	__u32 nRetriedWrites;
 	__u32 nRetiredBlocks;
@@ -922,6 +945,10 @@ int yaffs_DumpObject(yaffs_Object *obj);
 void yaffs_GutsTest(yaffs_Device *dev);
 
 /* A few useful functions to be used within the core files*/
+<<<<<<< HEAD
+=======
+void yaffs_InitialiseTags(yaffs_ExtendedTags *tags);
+>>>>>>> 875ed9e... yaffs: sync with yaffs repo
 void yaffs_DeleteChunk(yaffs_Device *dev, int chunkId, int markNAND, int lyn);
 int yaffs_CheckFF(__u8 *buffer, int nBytes);
 void yaffs_HandleChunkError(yaffs_Device *dev, yaffs_BlockInfo *bi);
@@ -952,7 +979,13 @@ yaffs_Tnode *yaffs_AddOrFindLevel0Tnode(yaffs_Device *dev,
 					yaffs_FileStructure *fStruct,
 					__u32 chunkId,
 					yaffs_Tnode *passedTn);
+<<<<<<< HEAD
 
+=======
+void yaffs_VerifyObjects(yaffs_Device *dev);
+void yaffs_VerifyBlocks(yaffs_Device *dev);
+void yaffs_VerifyFreeChunks(yaffs_Device *dev);
+>>>>>>> 875ed9e... yaffs: sync with yaffs repo
 int yaffs_DoWriteDataToFile(yaffs_Object *in, const __u8 *buffer, loff_t offset,
 			int nBytes, int writeThrough);
 void yaffs_ResizeDown( yaffs_Object *obj, loff_t newSize);
