@@ -97,10 +97,6 @@ void yaffs_VerifyCollectedBlock(yaffs_Device *dev, yaffs_BlockInfo *bi, int n)
 	yaffs_VerifyBlock(dev, bi, n);
 
 	/* After collection the block should be in the erased state */
-<<<<<<< HEAD
-=======
-	/* This will need to change if we do partial gc */
->>>>>>> 875ed9e... yaffs: sync with yaffs repo
 
 	if (bi->blockState != YAFFS_BLOCK_STATE_COLLECTING &&
 			bi->blockState != YAFFS_BLOCK_STATE_EMPTY) {

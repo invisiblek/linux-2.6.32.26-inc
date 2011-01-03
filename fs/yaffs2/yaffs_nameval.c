@@ -74,7 +74,7 @@ int nval_del(char *xb, int xb_size, const YCHAR *name)
 {
 	int pos  = nval_find(xb, xb_size, name, NULL);
 	int size;
-	
+
 	if(pos >= 0 && pos < xb_size){
 		/* Find size, shift rest over this record, then zero out the rest of buffer */
 		memcpy(&size,xb+pos,sizeof(int));
@@ -128,9 +128,9 @@ int nval_get(const char *xb, int xb_size, const YCHAR *name, char *buf, int bsiz
 {
 	int pos = nval_find(xb,xb_size,name,NULL);
 	int size;
-	
+
 	if(pos >= 0 && pos< xb_size){
-		
+
 		memcpy(&size,xb +pos,sizeof(int));
 		pos+=sizeof(int); /* advance past record length */
 		size -= sizeof(int);
@@ -148,7 +148,7 @@ int nval_get(const char *xb, int xb_size, const YCHAR *name, char *buf, int bsiz
 			memcpy(buf,xb + pos,size);
 			return size;
 		}
-		
+
 	}
 	if(pos >= 0)
 		return -ERANGE;
@@ -194,31 +194,4 @@ int nval_list(const char *xb, int xb_size, char *buf, int bsize)
 int nval_hasvalues(const char *xb, int xb_size)
 {
 	return nval_used(xb, xb_size) > 0;
-int nval_load(char *xb, int xb_size, const char *src, int src_size)
-{
-	int tx_size;
-	int used;
-	
-	tx_size = xb_size;
-	if(tx_size > src_size)
-		tx_size = src_size;
-
-	memcpy(xb,src,tx_size);
-	used = nval_used(xb, xb_size);
-	
-	if( used < xb_size)
-		memset(xb+ used, 0, xb_size - used);
-	return used;	
-}
-
-int nval_save(const char *xb, int xb_size, char *dest, int dest_size)
-{
-	int tx_size;
-	
-	tx_size = xb_size;
-	if(tx_size > dest_size)
-		tx_size = dest_size;
-
-	memcpy(dest,xb,tx_size);
-	return tx_size;
 }
