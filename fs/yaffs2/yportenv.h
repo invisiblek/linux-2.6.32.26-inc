@@ -193,7 +193,6 @@
 #ifndef SEEK_CUR
 #define SEEK_CUR	1
 #endif
-<<<<<<< HEAD
 
 #ifndef SEEK_END
 #define SEEK_END	2
@@ -235,49 +234,6 @@
 #define ERANGE 34
 #endif
 
-=======
-
-#ifndef SEEK_END
-#define SEEK_END	2
-#endif
-
-#ifndef EBUSY
-#define EBUSY	16
-#endif
-
-#ifndef ENODEV
-#define ENODEV	19
-#endif
-
-#ifndef EINVAL
-#define EINVAL	22
-#endif
-
-#ifndef EBADF
-#define EBADF	9
-#endif
-
-#ifndef EACCES
-#define EACCES	13
-#endif
-
-#ifndef EXDEV	
-#define EXDEV	18
-#endif
-
-#ifndef ENOENT
-#define ENOENT	2
-#endif
-
-#ifndef ENOSPC
-#define ENOSPC	28
-#endif
-
-#ifndef ERANGE
-#define ERANGE 34
-#endif
-
->>>>>>> 875ed9e... yaffs: sync with yaffs repo
 #ifndef ENODATA
 #define ENODATA 61
 #endif

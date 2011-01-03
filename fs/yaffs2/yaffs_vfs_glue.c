@@ -31,30 +31,23 @@
  * >> inode->u.generic_ip points to the associated yaffs_Object.
  */
 
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 /*
  * There are two variants of the VFS glue code. This variant should compile
  * for any version of Linux.
  */
-=======
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 #include <linux/version.h>
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 10))
 #define YAFFS_COMPILE_BACKGROUND
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6, 23))
 #define YAFFS_COMPILE_FREEZER
 #endif
-=======
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 #endif
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,28))
 #define YAFFS_COMPILE_EXPORTFS
 #endif
 
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 #if (LINUX_VERSION_CODE > KERNEL_VERSION(2,6,35))
 #define YAFFS_USE_SETATTR_COPY
 #define YAFFS_USE_TRUNCATE_SETSIZE
@@ -63,8 +56,6 @@
 #define YAFFS_HAS_EVICT_INODE
 #endif
 
-=======
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 #if (LINUX_VERSION_CODE > KERNEL_VERSION(2,6,13))
 #define YAFFS_NEW_FOLLOW_LINK 1
 #else
@@ -99,11 +90,8 @@
 #ifdef YAFFS_COMPILE_BACKGROUND
 #include <linux/kthread.h>
 #include <linux/delay.h>
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 #endif
 #ifdef YAFFS_COMPILE_FREEZER
-=======
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 #include <linux/freezer.h>
 #endif
 
@@ -186,10 +174,7 @@ unsigned int yaffs_traceMask = YAFFS_TRACE_BAD_BLOCKS | YAFFS_TRACE_ALWAYS;
 unsigned int yaffs_wr_attempts = YAFFS_WR_ATTEMPTS;
 unsigned int yaffs_auto_checkpoint = 1;
 unsigned int yaffs_gc_control = 1;
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 unsigned int yaffs_bg_enable = 1;
-=======
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 
 /* Module Parameters */
 #if (LINUX_VERSION_CODE > KERNEL_VERSION(2, 5, 0))
@@ -197,10 +182,7 @@ module_param(yaffs_traceMask, uint, 0644);
 module_param(yaffs_wr_attempts, uint, 0644);
 module_param(yaffs_auto_checkpoint, uint, 0644);
 module_param(yaffs_gc_control, uint, 0644);
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 module_param(yaffs_bg_enable, uint, 0644);
-=======
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 #else
 MODULE_PARM(yaffs_traceMask, "i");
 MODULE_PARM(yaffs_wr_attempts, "i");
@@ -254,12 +236,8 @@ static int yaffs_file_flush(struct file *file, fl_owner_t id);
 static int yaffs_file_flush(struct file *file);
 #endif
 
-#if (LINUX_VERSION_CODE > KERNEL_VERSION(2, 6, 34))
-static int yaffs_sync_object(struct file *file, int datasync);
-#else
 static int yaffs_sync_object(struct file *file, struct dentry *dentry,
 				int datasync);
-#endif
 
 static int yaffs_readdir(struct file *f, void *dirent, filldir_t filldir);
 
@@ -358,7 +336,6 @@ static void *yaffs_follow_link(struct dentry *dentry, struct nameidata *nd);
 static int yaffs_follow_link(struct dentry *dentry, struct nameidata *nd);
 #endif
 
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 static void yaffs_MarkSuperBlockDirty(yaffs_Device *dev);
 
 static loff_t yaffs_dir_llseek(struct file *file, loff_t offset, int origin);
@@ -366,10 +343,6 @@ static loff_t yaffs_dir_llseek(struct file *file, loff_t offset, int origin);
 static int yaffs_vfs_setattr(struct inode *, struct iattr *);
 
 
-=======
-static loff_t yaffs_dir_llseek(struct file *file, loff_t offset, int origin);
-
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 static struct address_space_operations yaffs_file_address_operations = {
 	.readpage = yaffs_readpage,
 	.writepage = yaffs_writepage,
@@ -506,7 +479,6 @@ static const struct super_operations yaffs_super_ops = {
 	.write_super = yaffs_write_super,
 };
 
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 
 static  int yaffs_vfs_setattr(struct inode *inode, struct iattr *attr)
 {
@@ -531,8 +503,6 @@ static  int yaffs_vfs_setsize(struct inode *inode, loff_t newsize)
 
 }
 
-=======
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 static unsigned yaffs_gc_control_callback(yaffs_Device *dev)
 {
 	return yaffs_gc_control;
@@ -549,7 +519,6 @@ static void yaffs_GrossUnlock(yaffs_Device *dev)
 {
 	T(YAFFS_TRACE_LOCK, (TSTR("yaffs unlocking %p\n"), current));
 	up(&(yaffs_DeviceToLC(dev)->grossLock));
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 }
 
 #ifdef YAFFS_COMPILE_EXPORTFS
@@ -572,30 +541,6 @@ static struct dentry *
 	return generic_fh_to_parent(sb, fid, fh_len, fh_type, yaffs2_nfs_get_inode);
 }
 
-=======
-}
-
-#ifdef YAFFS_COMPILE_EXPORTFS
-
-static struct inode *
-yaffs2_nfs_get_inode(struct super_block *sb, uint64_t ino, uint32_t generation)
-{
-	return Y_IGET(sb, ino);
-}
-
-static struct dentry *
-yaffs2_fh_to_dentry(struct super_block *sb, struct fid *fid, int fh_len, int fh_type)
-{
-	return generic_fh_to_dentry(sb, fid, fh_len, fh_type, yaffs2_nfs_get_inode) ;
-}
-
-static struct dentry *
- yaffs2_fh_to_parent(struct super_block *sb, struct fid *fid, int fh_len, int fh_type)
-{
-	return generic_fh_to_parent(sb, fid, fh_len, fh_type, yaffs2_nfs_get_inode);
-}
-
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 struct dentry *yaffs2_get_parent(struct dentry *dentry)
 {
 
@@ -930,11 +875,7 @@ static void yaffs_evict_inode( struct inode *inode)
 	obj = yaffs_InodeToObject(inode);
 
 	T(YAFFS_TRACE_OS,
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 		(TSTR("yaffs_evict_inode: ino %d, count %d %s\n"), (int)inode->i_ino,
-=======
-		(TSTR("yaffs_clear_inode: ino %d, count %d %s\n"), (int)inode->i_ino,
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 		atomic_read(&inode->i_count),
 		obj ? "object exists" : "null object"));
 
@@ -1947,19 +1888,12 @@ static int yaffs_symlink(struct inode *dir, struct dentry *dentry,
 	return -ENOMEM;
 }
 
-#if (LINUX_VERSION_CODE > KERNEL_VERSION(2, 6, 34))
-static int yaffs_sync_object(struct file *file, int datasync)
-#else
 static int yaffs_sync_object(struct file *file, struct dentry *dentry,
 				int datasync)
-#endif
 {
 
 	yaffs_Object *obj;
 	yaffs_Device *dev;
-#if (LINUX_VERSION_CODE > KERNEL_VERSION(2, 6, 34))
-	struct dentry *dentry = file->f_path.dentry;
-#endif
 
 	obj = yaffs_DentryToObject(dentry);
 
@@ -2048,19 +1982,12 @@ static int yaffs_setattr(struct dentry *dentry, struct iattr *attr)
 	if (error == 0) {
 		int result;
 		if (!error){
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 			error = yaffs_vfs_setattr(inode, attr);
 			T(YAFFS_TRACE_OS,(TSTR("inode_setattr called\n")));
 			if (attr->ia_valid & ATTR_SIZE){
                         	yaffs_vfs_setsize(inode,attr->ia_size);
                         	inode->i_blocks = (inode->i_size + 511) >> 9;
 			}
-=======
-			error = inode_setattr(inode, attr);
-			T(YAFFS_TRACE_OS,(TSTR("inode_setattr called\n")));
-			if (attr->ia_valid & ATTR_SIZE)
-                        	truncate_inode_pages(&inode->i_data,attr->ia_size);
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 		}
 		dev = yaffs_InodeToObject(inode)->myDev;
 		if (attr->ia_valid & ATTR_SIZE){
@@ -2076,12 +2003,6 @@ static int yaffs_setattr(struct dentry *dentry, struct iattr *attr)
 		}
 		yaffs_GrossUnlock(dev);
 
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
-	}
-
-	T(YAFFS_TRACE_OS,
-		(TSTR("yaffs_setattr done returning %d\n"),error));
-=======
 	}
 
 	T(YAFFS_TRACE_OS,
@@ -2122,147 +2043,6 @@ int yaffs_setxattr(struct dentry *dentry, const char *name,
 	return error;
 }
 
-
-ssize_t yaffs_getxattr(struct dentry *dentry, const char *name, void *buff,
-			size_t size)
-{
-	struct inode *inode = dentry->d_inode;
-	int error = 0;
-	yaffs_Device *dev;
-	yaffs_Object *obj = yaffs_InodeToObject(inode);
-
-	T(YAFFS_TRACE_OS,
-		(TSTR("yaffs_getxattr of object %d\n"),
-		obj->objectId));
-
-
-	if (error == 0) {
-		dev = obj->myDev;
-		yaffs_GrossLock(dev);
-		error = yaffs_GetXAttribute(obj, name, buff, size);
-		yaffs_GrossUnlock(dev);
-
-	}
-	T(YAFFS_TRACE_OS,
-		(TSTR("yaffs_getxattr done returning %d\n"),error));
-
-	return error;
-}
-
-int yaffs_removexattr(struct dentry *dentry, const char *name)
-{
-	struct inode *inode = dentry->d_inode;
-	int error = 0;
-	yaffs_Device *dev;
-	yaffs_Object *obj = yaffs_InodeToObject(inode);
-
-	T(YAFFS_TRACE_OS,
-		(TSTR("yaffs_removexattr of object %d\n"),
-		obj->objectId));
-
-
-	if (error == 0) {
-		int result;
-		dev = obj->myDev;
-		yaffs_GrossLock(dev);
-		result = yaffs_RemoveXAttribute(obj, name);
-		if(result == YAFFS_OK)
-			error = 0;
-		else if(result < 0)
-			error = result;
-		yaffs_GrossUnlock(dev);
-
-	}
-	T(YAFFS_TRACE_OS,
-		(TSTR("yaffs_removexattr done returning %d\n"),error));
-
-	return error;
-}
-
-ssize_t yaffs_listxattr(struct dentry *dentry, char *buff, size_t size)
-{
-	struct inode *inode = dentry->d_inode;
-	int error = 0;
-	yaffs_Device *dev;
-	yaffs_Object *obj = yaffs_InodeToObject(inode);
-
-	T(YAFFS_TRACE_OS,
-		(TSTR("yaffs_listxattr of object %d\n"),
-		obj->objectId));
-
-
-	if (error == 0) {
-		dev = obj->myDev;
-		yaffs_GrossLock(dev);
-		error = yaffs_ListXAttributes(obj, buff, size);
-		yaffs_GrossUnlock(dev);
-
-	}
-	T(YAFFS_TRACE_OS,
-		(TSTR("yaffs_listxattr done returning %d\n"),error));
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
-
-	return error;
-}
-
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
-#ifdef CONFIG_YAFFS_XATTR
-int yaffs_setxattr(struct dentry *dentry, const char *name,
-			const void *value, size_t size, int flags)
-=======
-#endif
-
-
-#if (LINUX_VERSION_CODE > KERNEL_VERSION(2, 6, 17))
-static int yaffs_statfs(struct dentry *dentry, struct kstatfs *buf)
-{
-	yaffs_Device *dev = yaffs_DentryToObject(dentry)->myDev;
-	struct super_block *sb = dentry->d_sb;
-#elif (LINUX_VERSION_CODE > KERNEL_VERSION(2, 5, 0))
-static int yaffs_statfs(struct super_block *sb, struct kstatfs *buf)
-{
-	yaffs_Device *dev = yaffs_SuperToDevice(sb);
-#else
-static int yaffs_statfs(struct super_block *sb, struct statfs *buf)
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
-{
-	struct inode *inode = dentry->d_inode;
-	int error = 0;
-	yaffs_Device *dev;
-	yaffs_Object *obj = yaffs_InodeToObject(inode);
-
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
-	T(YAFFS_TRACE_OS,
-		(TSTR("yaffs_setxattr of object %d\n"),
-		obj->objectId));
-=======
-	T(YAFFS_TRACE_OS, (TSTR("yaffs_statfs\n")));
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
-
-
-	if (error == 0) {
-		int result;
-		dev = obj->myDev;
-		yaffs_GrossLock(dev);
-		result = yaffs_SetXAttribute(obj, name, value, size, flags);
-		if(result == YAFFS_OK)
-			error = 0;
-		else if(result < 0)
-			error = result;
-		yaffs_GrossUnlock(dev);
-
-	}
-	T(YAFFS_TRACE_OS,
-		(TSTR("yaffs_setxattr done returning %d\n"),error));
-
-	return error;
-}
-
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
-=======
-		bytesInDev = ((uint64_t)((dev->param.endBlock - dev->param.startBlock + 1))) *
-			((uint64_t)(dev->param.nChunksPerBlock * dev->nDataBytesPerChunk));
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 
 ssize_t yaffs_getxattr(struct dentry *dentry, const char *name, void *buff,
 			size_t size)
@@ -2490,7 +2270,6 @@ static int yaffs_do_sync_fs(struct super_block *sb,
 	do_checkpoint = ((request_checkpoint && !gc_urgent) ||
 			oneshot_checkpoint) &&
 			!dev->isCheckpointed;
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 
 	if (sb->s_dirt || do_checkpoint) {
 		yaffs_FlushSuperBlock(sb, !dev->isCheckpointed && do_checkpoint);
@@ -2553,86 +2332,16 @@ static int yaffs_BackgroundThread(void *data)
 		if(try_to_freeze())
 			continue;
 #endif
-=======
-
-	if (sb->s_dirt || do_checkpoint) {
-		yaffs_FlushSuperBlock(sb, !dev->isCheckpointed && do_checkpoint);
-		sb->s_dirt = 0;
-		if(oneshot_checkpoint)
-			yaffs_auto_checkpoint &= ~4;
-	}
-	yaffs_GrossUnlock(dev);
-
-	return 0;
-}
-
-/*
- * yaffs background thread functions .
- * yaffs_BackgroundThread() the thread function
- * yaffs_BackgroundStart() launches the background thread.
- * yaffs_BackgroundStop() cleans up the background thread.
- *
- * NB: 
- * The thread should only run after the yaffs is initialised
- * The thread should be stopped before yaffs is unmounted.
- * The thread should not do any writing while the fs is in read only.
- */
-
-#ifdef YAFFS_COMPILE_BACKGROUND
-
-void yaffs_background_waker(unsigned long data)
-{
-	wake_up_process((struct task_struct *)data);
-}
-
-static int yaffs_BackgroundThread(void *data)
-{
-	yaffs_Device *dev = (yaffs_Device *)data;
-	struct yaffs_LinuxContext *context = yaffs_DeviceToLC(dev);
-	unsigned long now = jiffies;
-	unsigned long next_dir_update = now;
-	unsigned long next_gc = now;
-	unsigned long expires;
-	unsigned int urgency;
-
-	int gcResult;
-	struct timer_list timer;
-
-	T(YAFFS_TRACE_BACKGROUND,
-		(TSTR("yaffs_background starting for dev %p\n"),
-		(void *)dev));
-
-	set_freezable();
-
-	while(context->bgRunning){
-		T(YAFFS_TRACE_BACKGROUND,
-			(TSTR("yaffs_background\n")));
-
-		if(kthread_should_stop())
-			break;
-
-		if(try_to_freeze())
-			continue;
-
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 		yaffs_GrossLock(dev);
 
 		now = jiffies;
 
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 		if(time_after(now, next_dir_update) && yaffs_bg_enable){
-=======
-		if(time_after(now, next_dir_update)){
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 			yaffs_UpdateDirtyDirectories(dev);
 			next_dir_update = now + HZ;
 		}
 
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 		if(time_after(now,next_gc) && yaffs_bg_enable){
-=======
-		if(time_after(now,next_gc)){
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 			if(!dev->isCheckpointed){
 				urgency = yaffs_bg_gc_urgency(dev);
 				gcResult = yaffs_BackgroundGarbageCollect(dev, urgency);
@@ -2656,11 +2365,7 @@ static int yaffs_BackgroundThread(void *data)
 		if(time_before(expires,now))
 			expires = now + HZ;
 
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 		Y_INIT_TIMER(&timer);
-=======
-		init_timer_on_stack(&timer);
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 		timer.expires = expires+1;
 		timer.data = (unsigned long) current;
 		timer.function = yaffs_background_waker;
@@ -2712,7 +2417,6 @@ static void yaffs_BackgroundStop(yaffs_Device *dev)
 #else
 static int yaffs_BackgroundThread(void *data)
 {
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 	return 0;
 }
 
@@ -2721,16 +2425,6 @@ static int yaffs_BackgroundStart(yaffs_Device *dev)
 	return 0;
 }
 
-=======
-	return 0;
-}
-
-static int yaffs_BackgroundStart(yaffs_Device *dev)
-{
-	return 0;
-}
-
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 static void yaffs_BackgroundStop(yaffs_Device *dev)
 {
 }
@@ -3245,13 +2939,10 @@ static struct super_block *yaffs_internal_read_super(int yaffsVersion,
 	param->refreshPeriod = 500;
 #endif
 
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 #ifdef CONFIG_YAFFS__ALWAYS_CHECK_CHUNK_ERASED
 	param->alwaysCheckErased = 1;
 #endif
 
-=======
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 	if(options.empty_lost_and_found_overridden)
 		param->emptyLostAndFound = options.empty_lost_and_found;
 
@@ -3482,7 +3173,6 @@ static DECLARE_FSTYPE(yaffs2_fs_type, "yaffs2", yaffs2_read_super,
 
 static struct proc_dir_entry *my_proc_entry;
 static struct proc_dir_entry *debug_proc_entry;
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 
 static char *yaffs_dump_dev_part0(char *buf, yaffs_Device * dev)
 {
@@ -3502,26 +3192,6 @@ static char *yaffs_dump_dev_part0(char *buf, yaffs_Device * dev)
 
 	buf += sprintf(buf, "\n");
 
-=======
-
-static char *yaffs_dump_dev_part0(char *buf, yaffs_Device * dev)
-{
-	buf += sprintf(buf, "startBlock......... %d\n", dev->param.startBlock);
-	buf += sprintf(buf, "endBlock........... %d\n", dev->param.endBlock);
-	buf += sprintf(buf, "totalBytesPerChunk. %d\n", dev->param.totalBytesPerChunk);
-	buf += sprintf(buf, "useNANDECC......... %d\n", dev->param.useNANDECC);
-	buf += sprintf(buf, "noTagsECC.......... %d\n", dev->param.noTagsECC);
-	buf += sprintf(buf, "isYaffs2........... %d\n", dev->param.isYaffs2);
-	buf += sprintf(buf, "inbandTags......... %d\n", dev->param.inbandTags);
-	buf += sprintf(buf, "emptyLostAndFound.. %d\n", dev->param.emptyLostAndFound);
-	buf += sprintf(buf, "disableLazyLoad.... %d\n", dev->param.disableLazyLoad);
-	buf += sprintf(buf, "refreshPeriod...... %d\n", dev->param.refreshPeriod);
-	buf += sprintf(buf, "nShortOpCaches..... %d\n", dev->param.nShortOpCaches);
-	buf += sprintf(buf, "nReservedBlocks.... %d\n", dev->param.nReservedBlocks);
-
-	buf += sprintf(buf, "\n");
-
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 	return buf;
 }
 
@@ -3545,10 +3215,7 @@ static char *yaffs_dump_dev_part1(char *buf, yaffs_Device * dev)
 	buf += sprintf(buf, "allGCs............. %u\n", dev->allGCs);
 	buf += sprintf(buf, "passiveGCs......... %u\n", dev->passiveGCs);
 	buf += sprintf(buf, "oldestDirtyGCs..... %u\n", dev->oldestDirtyGCs);
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 	buf += sprintf(buf, "nGCBlocks.......... %u\n", dev->nGCBlocks);
-=======
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 	buf += sprintf(buf, "backgroundGCs...... %u\n", dev->backgroundGCs);
 	buf += sprintf(buf, "nRetriedWrites..... %u\n", dev->nRetriedWrites);
 	buf += sprintf(buf, "nRetireBlocks...... %u\n", dev->nRetiredBlocks);
@@ -3585,11 +3252,7 @@ static int yaffs_proc_read(char *page,
 
 	/* Print header first */
 	if (step == 0)
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 		buf += sprintf(buf, "Multi-version YAFFS built:" __DATE__ " " __TIME__"\n");
-=======
-		buf += sprintf(buf, "YAFFS built:" __DATE__ " " __TIME__"\n");
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 	else if (step == 1)
 		buf += sprintf(buf,"\n");
 	else {
@@ -3812,7 +3475,6 @@ static int __init init_yaffs_fs(void)
 
 	T(YAFFS_TRACE_ALWAYS,
 	  (TSTR("yaffs built " __DATE__ " " __TIME__ " Installing. \n")));
-<<<<<<< HEAD:fs/yaffs2/yaffs_vfs_glue.c
 
 #ifdef CONFIG_YAFFS_ALWAYS_CHECK_CHUNK_ERASED
 	T(YAFFS_TRACE_ALWAYS,
@@ -3821,16 +3483,6 @@ static int __init init_yaffs_fs(void)
 
 
 
-=======
-
-#ifdef CONFIG_YAFFS_ALWAYS_CHECK_CHUNK_ERASED
-	T(YAFFS_TRACE_ALWAYS,
-	  (TSTR(" \n\n\n\nYAFFS-WARNING CONFIG_YAFFS_ALWAYS_CHECK_CHUNK_ERASED selected.\n\n\n\n")));
-#endif
-
-
-
->>>>>>> 875ed9e... yaffs: sync with yaffs repo:fs/yaffs2/yaffs_fs.c
 
 	init_MUTEX(&yaffs_context_lock);
 

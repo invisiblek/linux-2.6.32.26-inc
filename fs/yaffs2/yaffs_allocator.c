@@ -168,24 +168,6 @@ static int yaffs_CreateTnodes(yaffs_Device *dev, int nTnodes)
 		return YAFFS_FAIL;
 	}
 
-<<<<<<< HEAD
-=======
-	/* Hook them into the free list */
-#if 0
-	for (i = 0; i < nTnodes - 1; i++) {
-		newTnodes[i].internal[0] = &newTnodes[i + 1];
-#ifdef CONFIG_YAFFS_TNODE_LIST_DEBUG
-		newTnodes[i].internal[YAFFS_NTNODES_INTERNAL] = (void *)1;
-#endif
-	}
-
-	newTnodes[nTnodes - 1].internal[0] = allocator->freeTnodes;
-#ifdef CONFIG_YAFFS_TNODE_LIST_DEBUG
-	newTnodes[nTnodes - 1].internal[YAFFS_NTNODES_INTERNAL] = (void *)1;
-#endif
-	allocator->freeTnodes = newTnodes;
-#else
->>>>>>> 875ed9e... yaffs: sync with yaffs repo
 	/* New hookup for wide tnodes */
 	for (i = 0; i < nTnodes - 1; i++) {
 		curr = (yaffs_Tnode *) &mem[i * dev->tnodeSize];
@@ -196,13 +178,6 @@ static int yaffs_CreateTnodes(yaffs_Device *dev, int nTnodes)
 	curr = (yaffs_Tnode *) &mem[(nTnodes - 1) * dev->tnodeSize];
 	curr->internal[0] = allocator->freeTnodes;
 	allocator->freeTnodes = (yaffs_Tnode *)mem;
-
-<<<<<<< HEAD
-=======
-#endif
-
-
->>>>>>> 875ed9e... yaffs: sync with yaffs repo
 	allocator->nFreeTnodes += nTnodes;
 	allocator->nTnodesCreated += nTnodes;
 
@@ -245,16 +220,6 @@ yaffs_Tnode *yaffs_AllocateRawTnode(yaffs_Device *dev)
 
 	if (allocator->freeTnodes) {
 		tn = allocator->freeTnodes;
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_YAFFS_TNODE_LIST_DEBUG
-		if (tn->internal[YAFFS_NTNODES_INTERNAL] != (void *)1) {
-			/* Hoosterman, this thing looks like it isn't in the list */
-			T(YAFFS_TRACE_ALWAYS,
-			  (TSTR("yaffs: Tnode list bug 1" TENDSTR)));
-		}
-#endif
->>>>>>> 875ed9e... yaffs: sync with yaffs repo
 		allocator->freeTnodes = allocator->freeTnodes->internal[0];
 		allocator->nFreeTnodes--;
 	}
@@ -273,17 +238,6 @@ void yaffs_FreeRawTnode(yaffs_Device *dev, yaffs_Tnode *tn)
 	}
 
 	if (tn) {
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_YAFFS_TNODE_LIST_DEBUG
-		if (tn->internal[YAFFS_NTNODES_INTERNAL] != 0) {
-			/* Hoosterman, this thing looks like it is already in the list */
-			T(YAFFS_TRACE_ALWAYS,
-			  (TSTR("yaffs: Tnode list bug 2" TENDSTR)));
-		}
-		tn->internal[YAFFS_NTNODES_INTERNAL] = (void *)1;
-#endif
->>>>>>> 875ed9e... yaffs: sync with yaffs repo
 		tn->internal[0] = allocator->freeTnodes;
 		allocator->freeTnodes = tn;
 		allocator->nFreeTnodes++;
