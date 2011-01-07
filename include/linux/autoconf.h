@@ -1,7 +1,7 @@
 /*
  * Automatically generated C config: don't edit
  * Linux kernel version: 2.6.32.26
- * Mon Jan  3 01:24:56 2011
+ * Thu Jan  6 19:57:36 2011
  */
 #define AUTOCONF_INCLUDED
 #define CONFIG_DEBUG_SPINLOCK_SLEEP 1
@@ -360,6 +360,7 @@
 #define CONFIG_UEVENT_HELPER_PATH ""
 #define CONFIG_YAFFS_YAFFS2 1
 #define CONFIG_RTC_INTF_ALARM_DEV 1
+#define CONFIG_YAFFS_DISABLE_TAGS_ECC 1
 #define CONFIG_RTC_HCTOSYS_DEVICE "rtc0"
 #define CONFIG_MMC_BLOCK_PARANOID_RESUME 1
 #define CONFIG_MSM_SERIAL_DEBUGGER_NO_SLEEP 1

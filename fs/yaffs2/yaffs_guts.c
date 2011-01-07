@@ -5543,4 +5543,3 @@ static int yaffs_CheckStructures(void)
 #endif
 	return YAFFS_OK;
 }
-

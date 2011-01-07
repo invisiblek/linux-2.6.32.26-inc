@@ -30,6 +30,7 @@
  *         superblock
  * >> inode->u.generic_ip points to the associated yaffs_Object.
  */
+ 
 
 /*
  * There are two variants of the VFS glue code. This variant should compile
