@@ -74,8 +74,8 @@ struct clkctl_acpu_speed {
 #define SRC_PLL1	3 /* 768 MHz */
 
 struct clkctl_acpu_speed acpu_freq_tbl[] = {
-	{  19200, CCTL(CLK_TCXO, 1),		SRC_RAW, 0, 0, 900, 14000}, // 950
-	{ 128000, CCTL(CLK_TCXO, 1),		SRC_AXI, 0, 0, 900, 14000 }, // 950
+	{  19200, CCTL(CLK_TCXO, 1),		SRC_RAW, 0, 0, 925, 14000}, // 950
+	{ 128000, CCTL(CLK_TCXO, 1),		SRC_AXI, 0, 0, 925, 14000 }, // 950
 	{ 245760, CCTL(CLK_MODEM_PLL, 1),	SRC_RAW, 0, 0, 925, 29000 }, // change vdd to 1000 as evo has issues setting undervolt to 950 or 975
 	{ 384000, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x0A, 0, 950, 58000 }, // 975
 	{ 422400, CCTL(CLK_TCXO, 1),		SRC_SCPLL, 0x0B, 0, 975, 117000 }, // 1000
